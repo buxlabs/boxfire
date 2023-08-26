@@ -1,9 +1,16 @@
 const { writeFile, mkdir, unlink } = require("fs/promises")
-const { dirname } = require("path")
+const { join, dirname } = require("path")
 const { glob } = require("glob")
 const { compile } = require("boxwood")
 
-async function generate({ input, output }) {
+const ROBOTS = `
+User-agent: *
+Allow: /
+
+Sitemap: https://example.domain/sitemap.xml
+`.trim()
+
+async function generate({ input, output, domain, robots = true }) {
   const pages = await glob(`${output}/**/*.html`)
   for (const page of pages) {
     await unlink(page)
@@ -22,6 +29,12 @@ async function generate({ input, output }) {
     const dir = out.replace("/index.html", "")
     await mkdir(dir, { recursive: true })
     await writeFile(out, html, "utf8")
+  }
+  if (domain && robots) {
+    await writeFile(
+      join(output, "robots.txt"),
+      ROBOTS.replace("example.domain", domain)
+    )
   }
 }
 
