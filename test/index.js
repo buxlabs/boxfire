@@ -24,6 +24,7 @@ async function compareByExtension(assert, dir1, dir2, extension) {
 async function compare(assert, dir1, dir2) {
   await compareByExtension(assert, dir1, dir2, "html")
   await compareByExtension(assert, dir1, dir2, "txt")
+  await compareByExtension(assert, dir1, dir2, "xml")
 }
 
 const specs = globSync(join(__dirname, "fixtures") + "/*")
@@ -38,7 +39,9 @@ specs.map((dir) => {
       input,
       output,
       robots: name.includes("robots"),
+      sitemap: name.includes("sitemap"),
       domain: "foo.bar",
+      log: false,
     })
     await compare(assert, input.replace(/\/input$/, "/output"), output)
   })
