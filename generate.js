@@ -14,8 +14,12 @@ module.exports = async function generate({
   log = true,
 }) {
   await beforeHook({ output })
-  const { paths } = await generatePages({ input, output })
-  await generateAssets({ input, output })
+  const pages = await generatePages({ input, output })
+  const assets = await generateAssets({ input, output })
+  const paths = [
+    ...pages.map((page) => page.path),
+    ...assets.map((asset) => asset.path),
+  ]
   if (domain && robots) {
     await generateRobots({ output, domain })
   }
