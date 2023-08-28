@@ -23,6 +23,8 @@ async function compare(assert, dir1, dir2) {
   await compareByExtension(assert, dir1, dir2, "html")
   await compareByExtension(assert, dir1, dir2, "txt")
   await compareByExtension(assert, dir1, dir2, "xml")
+  await compareByExtension(assert, dir1, dir2, "svg")
+  await compareByExtension(assert, dir1, dir2, "png")
 }
 
 const specs = globSync(join(__dirname, "fixtures") + "/*")

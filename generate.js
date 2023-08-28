@@ -1,6 +1,7 @@
 const beforeHook = require("./hooks/before")
 const afterHook = require("./hooks/after")
 const generatePages = require("./generators/pages")
+const generateAssets = require("./generators/assets")
 const generateRobots = require("./generators/robots")
 const generateSitemap = require("./generators/sitemap")
 
@@ -14,6 +15,7 @@ module.exports = async function generate({
 }) {
   await beforeHook({ output })
   const { paths } = await generatePages({ input, output })
+  await generateAssets({ input, output })
   if (domain && robots) {
     await generateRobots({ output, domain })
   }
