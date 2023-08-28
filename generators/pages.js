@@ -4,7 +4,7 @@ const { glob } = require("glob")
 const { compile } = require("boxwood")
 
 module.exports = async function generatePages({ input, output }) {
-  const files = await glob(`${input}/**/*.js`)
+  const files = await glob(`${input}/views/**/*.js`)
   const paths = []
   for (const file of files) {
     const parts = dirname(file).split("/")
@@ -14,7 +14,7 @@ module.exports = async function generatePages({ input, output }) {
     }
     const { template } = await compile(file)
     const html = template()
-    const out = file.replace(input, output).replace(".js", ".html")
+    const out = file.replace(`${input}/views`, output).replace(".js", ".html")
     const dir = out.replace("/index.html", "")
     await mkdir(dir, { recursive: true })
     await writeFile(out, html, "utf8")

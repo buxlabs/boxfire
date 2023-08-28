@@ -5,8 +5,6 @@ const { generate } = require("..")
 const { join } = require("path")
 const { tmpdir } = require("os")
 
-const tmp = tmpdir()
-
 async function compareByExtension(assert, dir1, dir2, extension) {
   const files1 = globSync(dir1 + `/**/*.${extension}`)
   const files2 = globSync(dir2 + `/**/*.${extension}`)
@@ -30,6 +28,7 @@ async function compare(assert, dir1, dir2) {
 const specs = globSync(join(__dirname, "fixtures") + "/*")
 
 specs.map((dir) => {
+  const tmp = tmpdir()
   const parts = dir.split("/")
   const name = parts[parts.length - 1]
   test(name, async (assert) => {
