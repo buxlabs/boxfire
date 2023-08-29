@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/buxlabs/boxfire#readme",
   "devDependencies": {
-    "ava": "^5.3.1"
+    "ava": "^5.3.1",
+    "sharp": "^0.32.5"
   },
   "dependencies": {
     "awesome-debounce-promise": "^2.1.0",
