@@ -4,6 +4,12 @@ const { default: debounce } = require("awesome-debounce-promise")
 
 const debouncedGenerate = debounce(generate, 100)
 
+function clearCache() {
+  Object.keys(require.cache).forEach(function (key) {
+    delete require.cache[key]
+  })
+}
+
 module.exports = function watch({
   input,
   output,
@@ -20,6 +26,7 @@ module.exports = function watch({
   })
 
   async function onEvent() {
+    clearCache()
     await debouncedGenerate({
       input,
       output,

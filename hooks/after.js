@@ -8,7 +8,7 @@ module.exports = async function afterHook({
 }) {
   if (log) {
     paths.map((path) =>
-      console.log(`${path.replace(`${output}/`, "")} created.`)
+      console.log(`${path.replace(`${output}/`, "")} created`)
     )
     if (domain && robots) {
       console.log("robots.txt created")
