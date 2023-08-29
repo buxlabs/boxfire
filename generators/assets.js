@@ -19,17 +19,17 @@ module.exports = async function generateAssets({ input, output }) {
       const match = name.match(/\d+x\d+/)
       if (match) {
         const size = match[0]
-        const [height, width] = size.split("x").map(Number)
-        if (width > 100 || height > 100) {
-          const newHeight = Math.round(height / 2)
-          const newWidth = Math.round(width / 2)
+        let [height, width] = size.split("x").map(Number)
+        while (width > 100 || height > 100) {
+          height = Math.round(height / 2)
+          width = Math.round(width / 2)
           const newFilename = file
             .replace(input, output)
-            .replace(size, `${newWidth}x${newHeight}`)
+            .replace(size, `${width}x${height}`)
           await sharp(file)
             .resize({
-              height: Math.round(height / 2),
-              width: Math.round(width / 2),
+              height,
+              width,
             })
             .toFile(newFilename)
         }
