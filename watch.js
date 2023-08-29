@@ -1,5 +1,6 @@
 const generate = require("./generate")
 const serve = require("./serve")
+const chokidar = require("chokidar")
 const { default: debounce } = require("awesome-debounce-promise")
 
 const debouncedGenerate = debounce(generate, 100)
