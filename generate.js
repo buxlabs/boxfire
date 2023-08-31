@@ -24,7 +24,7 @@ module.exports = async function generate({
     await generateRobots({ output, domain })
   }
   if (domain && sitemap) {
-    await generateSitemap({ paths, output, domain })
+    await generateSitemap({ pages, output, domain })
   }
   await afterHook({ paths, output, domain, robots, sitemap, log })
 }

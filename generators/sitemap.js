@@ -14,12 +14,12 @@ function prependHttps(domain) {
   return domain.startsWith("https://") ? domain : "https://" + domain
 }
 
-module.exports = async function generateSitemap({ paths, output, domain }) {
+module.exports = async function generateSitemap({ pages, output, domain }) {
   const XML_SITEMAP =
     SITEMAP_START +
     "\n" +
-    paths
-      .map((path) => {
+    pages
+      .map(({ path }) => {
         const pathname = path.replace(output, "").replace("index.html", "")
         return `  <url><loc>${prependHttps(domain)}${
           pathname === "/" ? "" : pathname
@@ -31,8 +31,8 @@ module.exports = async function generateSitemap({ paths, output, domain }) {
 
   await writeFile(join(output, "sitemap.xml"), XML_SITEMAP)
 
-  const TXT_SITEMAP = paths
-    .map((path) => {
+  const TXT_SITEMAP = pages
+    .map(({ path }) => {
       const pathname = path.replace(output, "").replace("index.html", "")
       return `${prependHttps(domain)}${pathname === "/" ? "" : pathname}`
     })
