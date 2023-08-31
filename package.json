@@ -1,6 +1,6 @@
 {
   "name": "boxfire",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Static site generator",
   "main": "index.js",
   "scripts": {
