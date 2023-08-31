@@ -15,6 +15,7 @@ module.exports = async function afterHook({
     }
     if (domain && sitemap) {
       console.log("sitemap.xml created")
+      console.log("sitemap.txt created")
     }
   }
 }
