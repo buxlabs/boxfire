@@ -10,20 +10,33 @@ const SITEMAP_END = `
 </urlset>
 `.trim()
 
+function prependHttps(domain) {
+  return domain.startsWith("https://") ? domain : "https://" + domain
+}
+
 module.exports = async function generateSitemap({ paths, output, domain }) {
-  const content =
+  const XML_SITEMAP =
     SITEMAP_START +
     "\n" +
     paths
       .map((path) => {
         const pathname = path.replace(output, "").replace("index.html", "")
-        return `  <url><loc>${
-          domain.startsWith("https://") ? domain : "https://" + domain
-        }${pathname === "/" ? "" : pathname}</loc></url>`
+        return `  <url><loc>${prependHttps(domain)}${
+          pathname === "/" ? "" : pathname
+        }</loc></url>`
       })
       .join("\n") +
     "\n" +
     SITEMAP_END
 
-  await writeFile(join(output, "sitemap.xml"), content)
+  await writeFile(join(output, "sitemap.xml"), XML_SITEMAP)
+
+  const TXT_SITEMAP = paths
+    .map((path) => {
+      const pathname = path.replace(output, "").replace("index.html", "")
+      return `${prependHttps(domain)}${pathname === "/" ? "" : pathname}`
+    })
+    .join("\n")
+
+  await writeFile(join(output, "sitemap.txt"), TXT_SITEMAP)
 }
