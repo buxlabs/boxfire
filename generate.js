@@ -12,10 +12,11 @@ module.exports = async function generate({
   robots = true,
   sitemap = true,
   log = true,
+  blur = false,
 }) {
   await beforeHook({ output })
   const pages = await generatePages({ input, output })
-  const assets = await generateAssets({ input, output })
+  const assets = await generateAssets({ input, output, blur })
   const paths = [
     ...pages.map((page) => page.path),
     ...assets.map((asset) => asset.path),

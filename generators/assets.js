@@ -5,7 +5,7 @@ const sharp = require("sharp")
 
 const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "gif"]
 
-module.exports = async function generateAssets({ input, output }) {
+module.exports = async function generateAssets({ input, output, blur }) {
   const files = await glob(`${input}/assets/**/*`, { nodir: true, dot: false })
   const assets = []
   for (const file of files) {
@@ -16,9 +16,11 @@ module.exports = async function generateAssets({ input, output }) {
     await copyFile(file, out)
     const [name, extension] = filename.split(".")
     if (IMAGE_EXTENSIONS.includes(extension)) {
-      await sharp(file)
-        .blur(32)
-        .toFile(out.replace(`.${extension}`, `_blur32.${extension}`))
+      if (blur) {
+        await sharp(file)
+          .blur(32)
+          .toFile(out.replace(`.${extension}`, `_blur32.${extension}`))
+      }
       const match = name.match(/\d+x\d+/)
       if (match) {
         const size = match[0]
@@ -35,16 +37,18 @@ module.exports = async function generateAssets({ input, output }) {
               height,
             })
             .toFile(filename1)
-          const filename2 = file
-            .replace(input, output)
-            .replace(size, `${width}x${height}_blur32`)
-          await sharp(file)
-            .resize({
-              width,
-              height,
-            })
-            .blur(32)
-            .toFile(filename2)
+          if (blur) {
+            const filename2 = file
+              .replace(input, output)
+              .replace(size, `${width}x${height}_blur32`)
+            await sharp(file)
+              .resize({
+                width,
+                height,
+              })
+              .blur(32)
+              .toFile(filename2)
+          }
         }
       } else {
         console.error(`Please rename ${file} and add the size`)
