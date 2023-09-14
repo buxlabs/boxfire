@@ -30,12 +30,13 @@ async function compare(assert, dir1, dir2) {
 const specs = globSync(join(__dirname, "fixtures") + "/*")
 
 specs.map((dir) => {
-  const tmp = tmpdir()
   const parts = dir.split("/")
   const name = parts[parts.length - 1]
   test(name, async (assert) => {
     const input = join(__dirname, `fixtures/${name}/input`)
-    const output = join(tmp, name)
+    const output = process.env.DEBUG
+      ? join(__dirname, "debug")
+      : join(tmpdir(), name)
     await generate({
       input,
       output,
