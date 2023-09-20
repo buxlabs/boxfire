@@ -31,17 +31,21 @@ module.exports = function watch({
 
   async function onEvent() {
     clearCache()
-    await debouncedGenerate({
-      input,
-      output,
-      domain,
-      robots,
-      sitemap,
-      log,
-      blur,
-      optimize,
-      keys,
-    })
+    try {
+      await debouncedGenerate({
+        input,
+        output,
+        domain,
+        robots,
+        sitemap,
+        log,
+        blur,
+        optimize,
+        keys,
+      })
+    } catch (exception) {
+      console.error(exception)
+    }
   }
 
   watcher.on("ready", onEvent)
