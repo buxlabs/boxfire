@@ -4,7 +4,7 @@ const { glob } = require("glob")
 const { blur, resize, compress } = require("./image")
 const tinify = require("tinify")
 
-const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "gif"]
+const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png"]
 
 module.exports = async function generateAssets(params) {
   const { input, output } = params
@@ -20,11 +20,11 @@ module.exports = async function generateAssets(params) {
     const dir = dirname(out)
     await mkdir(dir, { recursive: true })
     await copyFile(file, out)
-    if (optimize) {
-      await compress({ input: out, output: out })
-    }
     const [name, extension] = filename.split(".")
     if (IMAGE_EXTENSIONS.includes(extension)) {
+      if (optimize) {
+        await compress({ input: out, output: out })
+      }
       if (params.blur) {
         const blurred = out.replace(`.${extension}`, `_blur32.${extension}`)
         await blur({ input: file, output: blurred })
