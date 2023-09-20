@@ -2,6 +2,8 @@ const generate = require("./generate")
 const serve = require("./serve")
 const chokidar = require("chokidar")
 const { default: debounce } = require("awesome-debounce-promise")
+const PrettyError = require("pretty-error")
+const pe = new PrettyError()
 
 const debouncedGenerate = debounce(generate, 100)
 
@@ -44,7 +46,7 @@ module.exports = function watch({
         keys,
       })
     } catch (exception) {
-      console.error(exception)
+      console.log(pe.render(exception))
     }
   }
 
