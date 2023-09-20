@@ -2,6 +2,7 @@ const { copyFile, mkdir } = require("fs/promises")
 const { basename, dirname } = require("path")
 const { glob } = require("glob")
 const { blur, resize, compress } = require("./image")
+const tinify = require("tinify")
 
 const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "gif"]
 

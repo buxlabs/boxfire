@@ -20,6 +20,8 @@ module.exports = function watch({
   log = true,
   port,
   blur = false,
+  optimize,
+  keys,
 }) {
   serve({ static: output, port })
   const watcher = chokidar.watch(input, {
@@ -37,6 +39,8 @@ module.exports = function watch({
       sitemap,
       log,
       blur,
+      optimize,
+      keys,
     })
   }
 
