@@ -10,7 +10,7 @@ module.exports = async function generateAssets(params) {
   const { input, output } = params
   const optimize = params.optimize && params.keys.tinify
   if (optimize) {
-    tinify.key = keys.tinify
+    tinify.key = params.keys.tinify
   }
   const files = await glob(`${input}/assets/**/*`, { nodir: true, dot: false })
   const assets = []
