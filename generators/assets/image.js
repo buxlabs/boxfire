@@ -16,17 +16,6 @@ async function resize({ input, output, width, height }) {
   return sharp(buffer).toFile(output)
 }
 
-async function blurAndResize({ input, output, width, height, blur = 32 }) {
-  const buffer = await sharp(input)
-    .resize({
-      width,
-      height,
-    })
-    .blur(blur)
-    .toBuffer()
-  return sharp(buffer).toFile(output)
-}
-
 async function compress({ input, output }) {
   const source = tinify.fromFile(input)
   source.toFile(output)
@@ -35,6 +24,5 @@ async function compress({ input, output }) {
 module.exports = {
   blur,
   resize,
-  blurAndResize,
   compress,
 }
