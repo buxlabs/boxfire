@@ -1,11 +1,16 @@
 const { copyFile, mkdir } = require("fs/promises")
 const { basename, dirname } = require("path")
 const { glob } = require("glob")
-const sharp = require("sharp")
+const { blur, resize, compress } = require("./image")
 
 const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "gif"]
 
-module.exports = async function generateAssets({ input, output, blur }) {
+module.exports = async function generateAssets(params) {
+  const { input, output } = params
+  const optimize = params.optimize && params.keys.tinify
+  if (optimize) {
+    tinify.key = keys.tinify
+  }
   const files = await glob(`${input}/assets/**/*`, { nodir: true, dot: false })
   const assets = []
   for (const file of files) {
@@ -14,12 +19,17 @@ module.exports = async function generateAssets({ input, output, blur }) {
     const dir = dirname(out)
     await mkdir(dir, { recursive: true })
     await copyFile(file, out)
+    if (optimize) {
+      await compress({ input: out, output: out })
+    }
     const [name, extension] = filename.split(".")
     if (IMAGE_EXTENSIONS.includes(extension)) {
-      if (blur) {
-        await sharp(file)
-          .blur(32)
-          .toFile(out.replace(`.${extension}`, `_blur32.${extension}`))
+      if (params.blur) {
+        const blurred = out.replace(`.${extension}`, `_blur32.${extension}`)
+        await blur({ input: file, output: blurred })
+        if (optimize) {
+          await compress({ input: blurred, output: blurred })
+        }
       }
       const match = name.match(/\d+x\d+/)
       if (match) {
@@ -31,23 +41,19 @@ module.exports = async function generateAssets({ input, output, blur }) {
           const filename1 = file
             .replace(input, output)
             .replace(size, `${width}x${height}`)
-          await sharp(file)
-            .resize({
-              width,
-              height,
-            })
-            .toFile(filename1)
-          if (blur) {
+          await resize({ input: file, output: filename1, width, height })
+          if (optimize) {
+            await compress({ input: filename1, output: filename1 })
+          }
+          if (params.blur) {
             const filename2 = file
               .replace(input, output)
               .replace(size, `${width}x${height}_blur32`)
-            await sharp(file)
-              .resize({
-                width,
-                height,
-              })
-              .blur(32)
-              .toFile(filename2)
+            await resize({ input: file, output: filename2, width, height })
+            await blur({ input: filename2, output: filename2 })
+            if (optimize) {
+              await compress({ input: filename2, output: filename2 })
+            }
           }
         }
       } else {

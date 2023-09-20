@@ -1,6 +1,6 @@
 const test = require("ava")
 const { globSync } = require("glob")
-const { readFile } = require("fs/promises")
+const { readFile, unlink } = require("fs/promises")
 const { generate } = require("..")
 const { join } = require("path")
 const { tmpdir } = require("os")
@@ -37,6 +37,10 @@ specs.map((dir) => {
     const output = process.env.DEBUG
       ? join(__dirname, "debug")
       : join(tmpdir(), name)
+    const existing = globSync(output + "/**/*", { nodir: true })
+    existing.forEach((file) => {
+      unlink(file)
+    })
     await generate({
       input,
       output,
