@@ -17,7 +17,7 @@ function getCurrentPath({ input, view }) {
 }
 
 function getCanonical({ domain, currentPath }) {
-  return prependHttps(join(domain, currentPath))
+  return prependHttps(domain) + currentPath
 }
 
 module.exports = async function generatePages({ input, output, domain }) {
