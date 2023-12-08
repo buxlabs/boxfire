@@ -1,5 +1,5 @@
 const { writeFile, mkdir } = require("fs/promises")
-const { dirname } = require("path")
+const { dirname, join, relative } = require("path")
 const { glob } = require("glob")
 const { compile } = require("boxwood")
 
@@ -8,9 +8,24 @@ async function findViews(input) {
   return paths.filter((file) => !file.endsWith(".test.js"))
 }
 
-module.exports = async function generatePages({ input, output }) {
+function prependHttps(domain) {
+  return domain.startsWith("https://") ? domain : "https://" + domain
+}
+
+function getCurrentPath({ input, view }) {
+  return `/${relative(join(input, "views"), dirname(view))}`
+}
+
+function getCanonical({ domain, currentPath }) {
+  return prependHttps(join(domain, currentPath))
+}
+
+module.exports = async function generatePages({ input, output, domain }) {
   const views = await findViews(input)
   const pages = []
+  const paths = views.map((view) => {
+    return getCurrentPath({ input, view })
+  })
   for (const view of views) {
     const parts = dirname(view).split("/")
     const partial = parts[parts.length - 1].startsWith("_")
@@ -18,7 +33,12 @@ module.exports = async function generatePages({ input, output }) {
       continue
     }
     const { template } = await compile(view)
-    const html = template()
+    const currentPath = getCurrentPath({ input, view })
+    const canonical = getCanonical({
+      domain,
+      currentPath,
+    })
+    const html = template({ currentPath, canonical, paths })
     const out = view.replace(`${input}/views`, output).replace(".js", ".html")
     const dir = out.replace("/index.html", "")
     await mkdir(dir, { recursive: true })

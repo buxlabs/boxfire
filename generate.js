@@ -17,7 +17,7 @@ module.exports = async function generate({
   keys,
 }) {
   await beforeHook({ output })
-  const pages = await generatePages({ input, output })
+  const pages = await generatePages({ input, output, domain })
   const assets = await generateAssets({ input, output, blur, optimize, keys })
   const paths = [
     ...pages.map((page) => page.path),
