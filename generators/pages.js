@@ -40,7 +40,7 @@ module.exports = async function generatePages({ input, output, domain }) {
     })
     const html = template({ currentPath, canonical, paths })
     const out = view.replace(`${input}/views`, output).replace(".js", ".html")
-    const dir = out.replace("/index.html", "")
+    const dir = dirname(out)
     await mkdir(dir, { recursive: true })
     await writeFile(out, html, "utf8")
     pages.push({ path: out })
