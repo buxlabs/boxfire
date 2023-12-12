@@ -20,6 +20,40 @@ function getCanonical({ domain, currentPath }) {
   return prependHttps(domain) + currentPath
 }
 
+function isPartial(view) {
+  const parts = dirname(view).split("/")
+  return parts[parts.length - 1].startsWith("_")
+}
+
+function isDynamicView(view) {
+  const parts = view.split("/")
+  const filename = parts[parts.length - 1]
+  return filename.startsWith("[") && filename.endsWith("].js")
+}
+
+async function generatePage({
+  input,
+  output,
+  domain,
+  view,
+  path,
+  paths,
+  data = {},
+}) {
+  const { template } = await compile(view)
+  const currentPath = getCurrentPath({ input, view: path })
+  const canonical = getCanonical({
+    domain,
+    currentPath,
+  })
+  const html = template({ currentPath, canonical, paths, ...data })
+  const out = path.replace(`${input}/views`, output).replace(".js", ".html")
+  const dir = dirname(out)
+  await mkdir(dir, { recursive: true })
+  await writeFile(out, html, "utf8")
+  return out
+}
+
 module.exports = async function generatePages({ input, output, domain }) {
   const views = await findViews(input)
   const pages = []
@@ -27,23 +61,40 @@ module.exports = async function generatePages({ input, output, domain }) {
     return getCurrentPath({ input, view })
   })
   for (const view of views) {
-    const parts = dirname(view).split("/")
-    const partial = parts[parts.length - 1].startsWith("_")
-    if (partial) {
+    if (isPartial(view)) {
       continue
     }
-    const { template } = await compile(view)
-    const currentPath = getCurrentPath({ input, view })
-    const canonical = getCanonical({
-      domain,
-      currentPath,
-    })
-    const html = template({ currentPath, canonical, paths })
-    const out = view.replace(`${input}/views`, output).replace(".js", ".html")
-    const dir = dirname(out)
-    await mkdir(dir, { recursive: true })
-    await writeFile(out, html, "utf8")
-    pages.push({ path: out })
+    if (isDynamicView(view)) {
+      const path = dirname(view)
+      const parts = path.split("/")
+      const last = parts[parts.length - 1]
+      const dir = join(input, "assets/content", last)
+      const files = await glob(dir + "/**/*.js")
+      for (const file of files) {
+        const fn = require(file)
+        const data = await fn()
+        const out = await generatePage({
+          input,
+          output,
+          domain,
+          view,
+          path: file.replace("/assets/content/", "/views/"),
+          paths,
+          data: { ...data },
+        })
+        pages.push({ path: out })
+      }
+    } else {
+      const out = await generatePage({
+        input,
+        output,
+        domain,
+        view,
+        path: view,
+        paths,
+      })
+      pages.push({ path: out })
+    }
   }
   return pages
 }

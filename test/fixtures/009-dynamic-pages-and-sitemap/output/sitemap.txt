@@ -1,0 +1,2 @@
+https://foo.bar/blog/bar/
+https://foo.bar/blog/foo/
