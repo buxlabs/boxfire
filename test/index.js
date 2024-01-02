@@ -12,7 +12,7 @@ async function compareByExtension(assert, dir1, dir2, extension) {
     const file1 = files1[i]
     const file2 = files2[i]
     assert.truthy(file1)
-    assert.truthy(file2)
+    assert.truthy(file2, "Missing file for: " + file1)
     const content1 = await readFile(file1, "utf8")
     const content2 = await readFile(file2, "utf8")
     assert.deepEqual(content1, content2)
