@@ -6,8 +6,8 @@ const { join } = require("path")
 const { tmpdir } = require("os")
 
 async function compareByExtension(assert, dir1, dir2, extension) {
-  const files1 = globSync(dir1 + `/**/*.${extension}`)
-  const files2 = globSync(dir2 + `/**/*.${extension}`)
+  const files1 = globSync(dir1 + `/**/*.${extension}`, { nodir: true })
+  const files2 = globSync(dir2 + `/**/*.${extension}`, { nodir: true })
   for (let i = 0, ilen = files1.length; i < ilen; i += 1) {
     const file1 = files1[i]
     const file2 = files2[i]

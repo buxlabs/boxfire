@@ -22,7 +22,9 @@ async function generateImage({
   params,
   assets,
 }) {
-  const out = file.replace(input, output)
+  const out = file
+    .replace(input, output)
+    .replace(`${output}/views/`, `${output}/`)
   const filename = basename(out)
   const dir = dirname(out)
   await mkdir(dir, { recursive: true })
