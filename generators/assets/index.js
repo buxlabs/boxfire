@@ -1,5 +1,5 @@
 const { copyFile, mkdir } = require("fs/promises")
-const { basename, dirname } = require("path")
+const { basename, dirname, join } = require("path")
 const { glob } = require("glob")
 const { blur, resize, compress } = require("./image")
 const tinify = require("tinify")
@@ -24,7 +24,7 @@ async function generateImage({
 }) {
   const out = file
     .replace(input, output)
-    .replace(`${output}/views/`, `${output}/`)
+    .replace(join(output, "views"), `${output}/`)
   const filename = basename(out)
   const dir = dirname(out)
   await mkdir(dir, { recursive: true })
