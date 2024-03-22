@@ -77,7 +77,11 @@ module.exports = async function generateAssets(params) {
   if (optimize) {
     tinify.key = params.keys.tinify
   }
-  const files = await glob(`${input}/assets/**/*`, { nodir: true, dot: false })
+  const files = await glob(`${input}/assets/**/*`, {
+    absolute: true,
+    nodir: true,
+    dot: false,
+  })
   const assets = []
   for (const file of files) {
     const extension = file.split(".").pop()
@@ -86,7 +90,11 @@ module.exports = async function generateAssets(params) {
     }
   }
 
-  const everything = await glob(`${input}/**/*`, { nodir: true, dot: false })
+  const everything = await glob(`${input}/**/*`, {
+    absolute: true,
+    nodir: true,
+    dot: false,
+  })
   for (const file of everything) {
     const extension = file.split(".").pop()
     if (IMAGE_EXTENSIONS.includes(extension)) {
