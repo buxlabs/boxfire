@@ -4,7 +4,7 @@
   "description": "Static site generator",
   "main": "index.js",
   "scripts": {
-    "test": "ava \"test/**/*.js\""
+    "test": "node --test"
   },
   "repository": {
     "type": "git",
@@ -22,18 +22,15 @@
     "url": "https://github.com/buxlabs/boxfire/issues"
   },
   "homepage": "https://github.com/buxlabs/boxfire#readme",
-  "devDependencies": {
-    "ava": "^6.0.1"
-  },
   "dependencies": {
     "awesome-debounce-promise": "^2.1.0",
     "boxwood": "^0.74.0",
-    "chokidar": "^3.5.3",
+    "chokidar": "^3.6.0",
     "compression": "^1.7.4",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "glob": "^10.3.10",
     "pretty-error": "^4.0.0",
-    "sharp": "^0.33.1",
+    "sharp": "^0.33.3",
     "tinify": "^1.7.1"
   }
 }
