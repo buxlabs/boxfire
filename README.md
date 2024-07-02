@@ -1,2 +1,13 @@
 # boxfire
-Static site generator
+
+Static site generator which uses boxwood.
+
+## Installation
+
+```
+npm install --save-dev boxfire
+```
+
+## Configuration
+
+
