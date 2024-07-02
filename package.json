@@ -6,6 +6,9 @@
   "scripts": {
     "test": "node --test"
   },
+  "bin": {
+    "boxfire": "bin/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buxlabs/boxfire.git"
