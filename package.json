@@ -27,7 +27,6 @@
   "homepage": "https://github.com/buxlabs/boxfire#readme",
   "dependencies": {
     "awesome-debounce-promise": "^2.1.0",
-    "boxwood": "^0.78.0",
     "chokidar": "^3.6.0",
     "compression": "^1.7.4",
     "express": "^4.19.2",
@@ -35,5 +34,11 @@
     "pretty-error": "^4.0.0",
     "sharp": "^0.33.4",
     "tinify": "^1.7.1"
+  },
+  "prettier": {
+    "semi": false
+  },
+  "devDependencies": {
+    "boxwood": "^0.79.0"
   }
 }

@@ -24,6 +24,7 @@ module.exports = function watch({
   blur = false,
   optimize,
   keys,
+  compile,
 }) {
   serve({ static: output, port })
   const watcher = chokidar.watch(input, {
@@ -44,6 +45,7 @@ module.exports = function watch({
         blur,
         optimize,
         keys,
+        compile,
       })
     } catch (exception) {
       console.log(pe.render(exception))

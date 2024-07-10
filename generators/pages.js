@@ -1,7 +1,6 @@
 const { writeFile, mkdir } = require("fs/promises")
 const { dirname, join, relative, sep } = require("path")
 const { glob } = require("glob")
-const { compile } = require("boxwood")
 
 async function findViews(input) {
   const paths = await glob(`${input}/views/**/*.js`, { absolute: true })
@@ -39,8 +38,9 @@ async function generatePage({
   path,
   paths,
   data = {},
+  compile,
 }) {
-  const { template } = await compile(view)
+  const { template } = compile(view)
   const currentPath = getCurrentPath({ input, view: path })
   const canonical = getCanonical({
     domain,
@@ -54,7 +54,12 @@ async function generatePage({
   return out
 }
 
-module.exports = async function generatePages({ input, output, domain }) {
+module.exports = async function generatePages({
+  input,
+  output,
+  domain,
+  compile,
+}) {
   const views = await findViews(input)
   const pages = []
   const paths = views.map((view) => {
@@ -81,6 +86,7 @@ module.exports = async function generatePages({ input, output, domain }) {
           path: file.replace("/assets/content/", "/views/"),
           paths,
           data: { ...data },
+          compile,
         })
         pages.push({ path: out })
       }
@@ -92,6 +98,7 @@ module.exports = async function generatePages({ input, output, domain }) {
         view,
         path: view,
         paths,
+        compile,
       })
       pages.push({ path: out })
     }

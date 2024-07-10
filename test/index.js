@@ -5,6 +5,7 @@ const { readFile, unlink } = require("fs/promises")
 const { generate } = require("..")
 const { join } = require("path")
 const { tmpdir } = require("os")
+const { compile } = require("boxwood")
 
 async function compareByExtension(dir1, dir2, extension) {
   const files1 = globSync(dir1 + `/**/*.${extension}`, { nodir: true })
@@ -51,6 +52,7 @@ specs.map((dir) => {
       domain: "foo.bar",
       log: false,
       blur: true,
+      compile,
     })
     await compare(input.replace(/\/input$/, "/output"), output)
   })
