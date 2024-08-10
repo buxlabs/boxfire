@@ -20,6 +20,7 @@ module.exports = function watch({
   robots = true,
   sitemap = true,
   log = true,
+  paths = [],
   port,
   blur = false,
   optimize,
@@ -27,7 +28,7 @@ module.exports = function watch({
   compile,
 }) {
   serve({ static: output, port })
-  const watcher = chokidar.watch(input, {
+  const watcher = chokidar.watch([input, ...paths], {
     ignored: /(^|[\/\\])\../,
     persistent: true,
   })
