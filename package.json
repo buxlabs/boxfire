@@ -1,5 +1,5 @@
 {
-  "name": "boxfire",
+  "name": "@buxlabs/boxfire",
   "version": "0.15.0",
   "description": "Static site generator",
   "main": "index.js",
