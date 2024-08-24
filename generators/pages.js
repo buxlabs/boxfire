@@ -1,6 +1,7 @@
 const { writeFile, mkdir } = require("fs/promises")
 const { dirname, join, relative, sep } = require("path")
 const { glob } = require("glob")
+const HTMLMinifier = require("@buxlabs/html-minifier")
 
 async function findViews(input) {
   const paths = await glob(`${input}/views/**/*.js`, { absolute: true })
@@ -50,7 +51,8 @@ async function generatePage({
   const out = path.replace(join(input, "views"), output).replace(".js", ".html")
   const dir = dirname(out)
   await mkdir(dir, { recursive: true })
-  await writeFile(out, html, "utf8")
+  const minified = HTMLMinifier.minify(html)
+  await writeFile(out, minified, "utf8")
   return out
 }
 
