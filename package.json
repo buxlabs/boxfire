@@ -4,7 +4,8 @@
   "description": "Static site generator",
   "main": "index.js",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "coverage": "node --test --experimental-test-coverage"
   },
   "bin": {
     "boxfire": "bin/cli.js"
@@ -33,7 +34,7 @@
     "express": "^4.19.2",
     "glob": "^11.0.0",
     "pretty-error": "^4.0.0",
-    "sharp": "^0.33.4",
+    "sharp": "^0.33.5",
     "tinify": "^1.7.1"
   },
   "prettier": {
