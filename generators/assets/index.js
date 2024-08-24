@@ -1,8 +1,7 @@
 const { copyFile, mkdir } = require("fs/promises")
 const { basename, dirname, join } = require("path")
 const { glob } = require("glob")
-const { blur, resize, compress } = require("./image")
-const tinify = require("tinify")
+const { blur, resize } = require("./image")
 
 const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "webp"]
 
@@ -14,14 +13,7 @@ async function generateAsset({ file, input, output, assets }) {
   assets.push({ path: out })
 }
 
-async function generateImage({
-  file,
-  input,
-  output,
-  optimize,
-  params,
-  assets,
-}) {
+async function generateImage({ file, input, output, params, assets }) {
   const out = file
     .replace(input, output)
     .replace(join(output, "views"), `${output}/`)
@@ -30,15 +22,9 @@ async function generateImage({
   await mkdir(dir, { recursive: true })
   await copyFile(file, out)
   const [name, extension] = filename.split(".")
-  if (optimize) {
-    await compress({ input: out, output: out })
-  }
   if (params.blur) {
     const blurred = out.replace(`.${extension}`, `_blur32.${extension}`)
     await blur({ input: file, output: blurred })
-    if (optimize) {
-      await compress({ input: blurred, output: blurred })
-    }
   }
   const match = name.match(/\d+x\d+/)
   if (match) {
@@ -51,18 +37,12 @@ async function generateImage({
         .replace(input, output)
         .replace(size, `${width}x${height}`)
       await resize({ input: file, output: filename1, width, height })
-      if (optimize) {
-        await compress({ input: filename1, output: filename1 })
-      }
       if (params.blur) {
         const filename2 = file
           .replace(input, output)
           .replace(size, `${width}x${height}_blur32`)
         await resize({ input: file, output: filename2, width, height })
         await blur({ input: filename2, output: filename2 })
-        if (optimize) {
-          await compress({ input: filename2, output: filename2 })
-        }
       }
     }
   } else {
@@ -73,10 +53,6 @@ async function generateImage({
 
 module.exports = async function generateAssets(params) {
   const { input, output } = params
-  const optimize = params.optimize && params.keys.tinify
-  if (optimize) {
-    tinify.key = params.keys.tinify
-  }
   const files = await glob(`${input}/assets/**/*`, {
     absolute: true,
     nodir: true,
@@ -98,7 +74,7 @@ module.exports = async function generateAssets(params) {
   for (const file of everything) {
     const extension = file.split(".").pop()
     if (IMAGE_EXTENSIONS.includes(extension)) {
-      await generateImage({ file, input, output, optimize, params, assets })
+      await generateImage({ file, input, output, params, assets })
     }
   }
 
