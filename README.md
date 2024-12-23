@@ -7,5 +7,3 @@ Static site generator which uses boxwood.
 ```
 npm install --save-dev @buxlabs/boxfire boxwood
 ```
-
-## Configuration
