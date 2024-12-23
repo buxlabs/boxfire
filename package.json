@@ -7,9 +7,6 @@
     "test": "node --test",
     "coverage": "node --test --experimental-test-coverage"
   },
-  "bin": {
-    "boxfire": "bin/cli.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buxlabs/boxfire.git"
