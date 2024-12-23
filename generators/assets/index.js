@@ -13,7 +13,14 @@ async function generateAsset({ file, input, output, assets }) {
   assets.push({ path: out })
 }
 
-async function generateImage({ file, input, output, params, assets }) {
+async function generateImage({
+  file,
+  input,
+  output,
+  params,
+  assets,
+  warnings,
+}) {
   const out = file
     .replace(input, output)
     .replace(join(output, "views"), `${output}/`)
@@ -46,13 +53,16 @@ async function generateImage({ file, input, output, params, assets }) {
       }
     }
   } else {
-    console.error(`Please rename ${file} and add the size`)
+    warnings.push({
+      file,
+      type: "IMAGE_SIZE_MISSING",
+    })
   }
   assets.push({ path: out })
 }
 
 module.exports = async function generateAssets(params) {
-  const { input, output } = params
+  const { input, output, warnings } = params
   const files = await glob(`${input}/assets/**/*`, {
     absolute: true,
     nodir: true,
@@ -74,7 +84,7 @@ module.exports = async function generateAssets(params) {
   for (const file of everything) {
     const extension = file.split(".").pop()
     if (IMAGE_EXTENSIONS.includes(extension)) {
-      await generateImage({ file, input, output, params, assets })
+      await generateImage({ file, input, output, params, assets, warnings })
     }
   }
 

@@ -17,9 +17,17 @@ module.exports = async function generate({
   keys,
   compile,
 }) {
+  const warnings = []
   await beforeHook({ output })
   const pages = await generatePages({ input, output, domain, compile })
-  const assets = await generateAssets({ input, output, blur, optimize, keys })
+  const assets = await generateAssets({
+    input,
+    output,
+    blur,
+    optimize,
+    keys,
+    warnings,
+  })
   const paths = [
     ...pages.map((page) => page.path),
     ...assets.map((asset) => asset.path),
@@ -30,5 +38,5 @@ module.exports = async function generate({
   if (domain && sitemap) {
     await generateSitemap({ pages, output, domain })
   }
-  await afterHook({ paths, output, domain, robots, sitemap, log })
+  await afterHook({ paths, output, domain, robots, sitemap, log, warnings })
 }
