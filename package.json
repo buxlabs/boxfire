@@ -40,6 +40,6 @@
     "semi": false
   },
   "devDependencies": {
-    "boxwood": "^0.79.0"
+    "boxwood": "^0.80.0"
   }
 }
