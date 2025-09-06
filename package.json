@@ -28,7 +28,7 @@
     "chokidar": "^3.6.0",
     "compression": "^1.7.4",
     "express": "^4.19.2",
-    "glob": "^11.0.0",
+    "glob": "^11.0.3",
     "pretty-error": "^4.0.0",
     "sharp": "^0.33.4"
   },
