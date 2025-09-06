@@ -22,8 +22,6 @@ module.exports = function watch({
   log = true,
   paths = [],
   port,
-  blur = false,
-  optimize,
   keys,
   compile,
 }) {
@@ -43,8 +41,6 @@ module.exports = function watch({
         robots,
         sitemap,
         log,
-        blur,
-        optimize,
         keys,
         compile,
       })

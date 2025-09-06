@@ -12,8 +12,6 @@ module.exports = async function generate({
   robots = true,
   sitemap = true,
   log = true,
-  blur = false,
-  optimize = false,
   keys,
   compile,
 }) {
@@ -23,8 +21,6 @@ module.exports = async function generate({
   const assets = await generateAssets({
     input,
     output,
-    blur,
-    optimize,
     keys,
     warnings,
   })

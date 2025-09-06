@@ -51,7 +51,6 @@ specs.map((dir) => {
       sitemap: name.includes("sitemap"),
       domain: "foo.bar",
       log: false,
-      blur: true,
       compile,
     })
     await compare(input.replace(/\/input$/, "/output"), output)

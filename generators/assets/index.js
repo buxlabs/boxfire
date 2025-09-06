@@ -1,7 +1,7 @@
 const { copyFile, mkdir } = require("fs/promises")
 const { basename, dirname, join } = require("path")
 const { glob } = require("glob")
-const { blur, resize } = require("./image")
+const { resize } = require("./image")
 
 const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "webp"]
 
@@ -29,10 +29,6 @@ async function generateImage({
   await mkdir(dir, { recursive: true })
   await copyFile(file, out)
   const [name, extension] = filename.split(".")
-  if (params.blur) {
-    const blurred = out.replace(`.${extension}`, `_blur32.${extension}`)
-    await blur({ input: file, output: blurred })
-  }
   const match = name.match(/\d+x\d+/)
   if (match) {
     const size = match[0]
@@ -44,13 +40,6 @@ async function generateImage({
         .replace(input, output)
         .replace(size, `${width}x${height}`)
       await resize({ input: file, output: filename1, width, height })
-      if (params.blur) {
-        const filename2 = file
-          .replace(input, output)
-          .replace(size, `${width}x${height}_blur32`)
-        await resize({ input: file, output: filename2, width, height })
-        await blur({ input: filename2, output: filename2 })
-      }
     }
   } else {
     warnings.push({
