@@ -55,14 +55,6 @@ watch({
 })
 ```
 
-### Serve only
-
-To serve a static directory:
-
-```js
-serve({ static: "dist", port: 3000 })
-```
-
 ## Project Structure
 
 Your input directory should look like:
