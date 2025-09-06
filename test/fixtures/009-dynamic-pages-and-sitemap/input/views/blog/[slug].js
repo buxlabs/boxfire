@@ -1,5 +1,5 @@
-const { div } = require("boxwood")
+const { Div } = require("boxwood")
 
 module.exports = ({ slug }) => {
-  return div(slug)
+  return Div(slug)
 }

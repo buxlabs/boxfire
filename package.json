@@ -37,6 +37,6 @@
     "semi": false
   },
   "devDependencies": {
-    "boxwood": "^0.80.0"
+    "boxwood": "^2.2.1"
   }
 }

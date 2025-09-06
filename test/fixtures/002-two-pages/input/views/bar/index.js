@@ -1,3 +1,3 @@
-const { div } = require("boxwood")
+const { Div } = require("boxwood")
 
-module.exports = () => div("bar")
+module.exports = () => Div("bar")

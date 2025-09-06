@@ -1,6 +1,6 @@
-const button = require("../components/button")
-const { doctype, html, head, body } = require("boxwood")
+const Button = require("../components/button")
+const { Doctype, Html, Head, Body } = require("boxwood")
 
 module.exports = () => {
-  return [doctype(), html([head(), body([button({ px: "sm" }, "foo")])])]
+  return [Doctype(), Html([Head(), Body([Button({ px: "sm" }, "foo")])])]
 }

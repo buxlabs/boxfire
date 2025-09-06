@@ -1,5 +1,5 @@
-const { doctype, html, head, body, h1 } = require("boxwood")
+const { Doctype, Html, Head, Body, H1 } = require("boxwood")
 
 module.exports = () => {
-  return [doctype(), html([head(), body([h1("foo")])])]
+  return [Doctype(), Html([Head(), Body([H1("foo")])])]
 }

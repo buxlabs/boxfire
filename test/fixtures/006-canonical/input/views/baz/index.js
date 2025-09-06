@@ -1,5 +1,5 @@
-const { link } = require("boxwood")
+const { Link } = require("boxwood")
 
 module.exports = ({ canonical }) => {
-  return link({ rel: "canonical", href: canonical })
+  return Link({ rel: "canonical", href: canonical })
 }

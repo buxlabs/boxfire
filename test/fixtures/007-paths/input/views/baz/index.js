@@ -1,5 +1,5 @@
-const { a } = require("boxwood")
+const { A } = require("boxwood")
 
 module.exports = ({ currentPath }) => {
-  return a({ href: currentPath }, "baz")
+  return A({ href: currentPath }, "baz")
 }

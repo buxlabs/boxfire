@@ -1,5 +1,5 @@
-const { a, ul, li } = require("boxwood")
+const { A, Ul, Li } = require("boxwood")
 
 module.exports = ({ currentPath, paths }) => {
-  return [a({ href: currentPath }, "home"), ul(paths.map((path) => li(path)))]
+  return [A({ href: currentPath }, "home"), Ul(paths.map((path) => Li(path)))]
 }
