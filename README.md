@@ -2,14 +2,13 @@ npm install --save-dev boxfire boxwood
 
 # boxfire
 
-**boxfire** is a static site generator for Node.js, designed to work seamlessly with [boxwood](https://github.com/buxlabs/boxwood). It supports dynamic pages, asset processing (including image resizing), robots.txt and sitemap generation, and HTML minification.
+**boxfire** is a static site generator for Node.js, designed to work seamlessly with [boxwood](https://github.com/buxlabs/boxwood). It supports dynamic pages, asset processing (including image resizing), robots.txt and sitemap generation.
 
 ## Features
 
 - **Boxwood-based views**: Write your site using boxwood components and functions.
 - **Dynamic pages**: Generate pages from dynamic content (e.g., blog posts).
 - **Asset pipeline**: Copy, resize images; copy other assets.
-- **HTML minification**: Output is minified for performance.
 - **robots.txt & sitemap.xml/txt**: Generated automatically for SEO.
 - **Watch mode**: Watch mode for development with auto-regeneration and static file serving.
 - **Hooks**: Customizable before/after build hooks.

@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/buxlabs/boxfire#readme",
   "dependencies": {
-    "@buxlabs/html-minifier": "^0.1.0",
     "awesome-debounce-promise": "^2.1.0",
     "chokidar": "^3.6.0",
     "compression": "^1.7.4",
