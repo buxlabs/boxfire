@@ -14,6 +14,7 @@ module.exports = async function generate({
   log = true,
   keys,
   compile,
+  resize = false,
 }) {
   const warnings = []
   await beforeHook({ output })
@@ -23,6 +24,7 @@ module.exports = async function generate({
     output,
     keys,
     warnings,
+    resize,
   })
   const paths = [
     ...pages.map((page) => page.path),

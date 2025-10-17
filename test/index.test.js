@@ -52,6 +52,7 @@ specs.map((dir) => {
       domain: "foo.bar",
       log: false,
       compile,
+      resize: name.includes("assets"),
     })
     await compare(input.replace(/\/input$/, "/output"), output)
   })
