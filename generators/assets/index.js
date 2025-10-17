@@ -20,6 +20,7 @@ async function generateImage({
   params,
   assets,
   warnings,
+  shouldResize,
 }) {
   const out = file
     .replace(input, output)
@@ -30,7 +31,7 @@ async function generateImage({
   await copyFile(file, out)
   const [name, extension] = filename.split(".")
   const match = name.match(/\d+x\d+/)
-  if (match) {
+  if (shouldResize && match) {
     const size = match[0]
     let [width, height] = size.split("x").map(Number)
     while (width > 100 || height > 100) {
@@ -41,7 +42,7 @@ async function generateImage({
         .replace(size, `${width}x${height}`)
       await resize({ input: file, output: filename1, width, height })
     }
-  } else {
+  } else if (shouldResize && !match) {
     warnings.push({
       file,
       type: "IMAGE_SIZE_MISSING",
@@ -51,7 +52,7 @@ async function generateImage({
 }
 
 module.exports = async function generateAssets(params) {
-  const { input, output, warnings } = params
+  const { input, output, warnings, resize: shouldResize = false } = params
   const files = await glob(`${input}/assets/**/*`, {
     absolute: true,
     nodir: true,
@@ -73,7 +74,15 @@ module.exports = async function generateAssets(params) {
   for (const file of everything) {
     const extension = file.split(".").pop()
     if (IMAGE_EXTENSIONS.includes(extension)) {
-      await generateImage({ file, input, output, params, assets, warnings })
+      await generateImage({
+        file,
+        input,
+        output,
+        params,
+        assets,
+        warnings,
+        shouldResize,
+      })
     }
   }
 
