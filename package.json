@@ -30,12 +30,12 @@
     "express": "^4.19.2",
     "glob": "^11.0.3",
     "pretty-error": "^4.0.0",
-    "sharp": "^0.33.4"
+    "sharp": "^0.34.4"
   },
   "prettier": {
     "semi": false
   },
   "devDependencies": {
-    "boxwood": "^2.2.1"
+    "boxwood": "^2.4.2"
   }
 }
