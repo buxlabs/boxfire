@@ -28,6 +28,7 @@ async function compare(dir1, dir2) {
   await compareByExtension(dir1, dir2, "svg")
   await compareByExtension(dir1, dir2, "png")
   await compareByExtension(dir1, dir2, "pdf")
+  await compareByExtension(dir1, dir2, "ico")
 }
 
 const specs = globSync(join(__dirname, "fixtures") + "/*")

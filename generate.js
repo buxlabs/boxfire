@@ -1,5 +1,6 @@
 const beforeHook = require("./hooks/before")
 const afterHook = require("./hooks/after")
+const generatePublic = require("./generators/public")
 const generatePages = require("./generators/pages")
 const generateAssets = require("./generators/assets")
 const generateRobots = require("./generators/robots")
@@ -18,6 +19,7 @@ module.exports = async function generate({
 }) {
   const warnings = []
   await beforeHook({ output })
+  await generatePublic({ input, output })
   const pages = await generatePages({ input, output, domain, compile })
   const assets = await generateAssets({
     input,
